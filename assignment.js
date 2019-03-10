@@ -1,40 +1,39 @@
 const search=document.querySelector('i');
 var section = document.querySelector('section');
 
-//on click of search button:
-search.addEventListener('click',function(e){
-	e.preventDefault();
-	// clearInterval(timerId);
-	
-	clearInterval(refreshId);
-	// timer();
-	getData();
-});
+  var CCOUNT = 30;
+  var t, count,refreshId;
+    
+    function cddisplay() {
+      
+        $('span').text(count);
+       
+    };
 
-//countdown function:
-var timerId,refreshId;
-function timer(){
-	var timeLeft = 28;
-			timerId = setInterval(function()
-			{
-				
+ function countdown() {
+        // starts countdown
+        cddisplay();
+        if (count == 0) {
+            
+           resetAndStartTimer();
+        } else {
+            count--;
+            t = setTimeout("countdown()", 1000);
+        }
+    };
 
-					if (timeLeft<=0) {
-		        clearInterval(timerId);
-		        // doSomething();
-		        // timer();
-		      } 
+ function cdreset() {
+        // resets countdown
+        clearTimeout(t);//pause
+        count = CCOUNT;
+        cddisplay();
+    };
 
-		 
-
-		      else {
-		      	$('span').text(timeLeft);
-		       
-		        timeLeft--;
-		      }
-		  }
-		      , 1000);
-}
+   function resetAndStartTimer(){
+    cdreset();
+    countdown();
+    
+    };
 
 
 function callAjax(){
@@ -60,6 +59,7 @@ function callAjax(){
 				
 				if(data["totalResults"]<=0){
 					alert('no results to show');
+					resetAndStartTimer();
 				}
 
 				var finals=data.articles;
@@ -77,32 +77,13 @@ function callAjax(){
 			}) ;
 }
 
-var flag=0;
+
 	function getData(){
 		
 		section.innerHTML="";//clear the result section
 
 		callAjax();//start async call
 
-    // clearInterval(timerId);
-		     //start countdown:
-
-		 	if(flag==0 || flag===undefined){
-				timer();
-				flag+=1;
-				
-			}
-			
-			
-
-		// 	setInterval(function()
-		// {
-
-		// 	 timer();
-
-		// },30000);
-			
-			
 	
 
 		//auto refresh code:
@@ -110,12 +91,10 @@ var flag=0;
 		{
 
 			section.innerHTML="";
-			 // clearInterval(timerId);
+			
 			//call for ajax request to auto refresh
 			callAjax();
-			//update the timer for next auto refresh
-
-			timer();
+			
 
 		},30000);
 
@@ -138,5 +117,11 @@ var flag=0;
 
 }
 
-
+//on click of search button:
+search.addEventListener('click',function(e){
+	e.preventDefault();
+	clearInterval(refreshId);
+	resetAndStartTimer();
+	getData();
+});
 
