@@ -2,19 +2,31 @@ const search=document.querySelector('i');
 var section = document.querySelector('section');
 
 //on click of search button:
-search.addEventListener('click',getData);
+search.addEventListener('click',function(e){
+	e.preventDefault();
+	// clearInterval(timerId);
+	
+	clearInterval(refreshId);
+	// timer();
+	getData();
+});
 
 //countdown function:
-var timerId
+var timerId,refreshId;
 function timer(){
 	var timeLeft = 28;
 			timerId = setInterval(function()
 			{
+				
+
 					if (timeLeft<=0) {
-		        clearTimeout(timerId);
+		        clearInterval(timerId);
 		        // doSomething();
 		        // timer();
 		      } 
+
+		 
+
 		      else {
 		      	$('span').text(timeLeft);
 		       
@@ -72,24 +84,33 @@ var flag=0;
 
 		callAjax();//start async call
 
-    
+    // clearInterval(timerId);
 		     //start countdown:
 
 		 	if(flag==0 || flag===undefined){
 				timer();
 				flag+=1;
-				console.log('inside flag '+flag);
+				
 			}
-			console.log('outside flag '+flag);
+			
+			
+
+		// 	setInterval(function()
+		// {
+
+		// 	 timer();
+
+		// },30000);
 			
 			
 	
 
 		//auto refresh code:
-		setInterval(function()
+		refreshId=setInterval(function()
 		{
 
 			section.innerHTML="";
+			 // clearInterval(timerId);
 			//call for ajax request to auto refresh
 			callAjax();
 			//update the timer for next auto refresh
