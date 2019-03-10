@@ -1,8 +1,31 @@
 const search=document.querySelector('i');
 var section = document.querySelector('section');
 
+//on click of search button:
+search.addEventListener('click',getData);
+
+//countdown function:
+function timer(){
+	var timeLeft = 28;
+			var timerId = setInterval(function()
+			{
+					if (timeLeft<=0) {
+		        clearTimeout(timerId);
+		        // doSomething();
+		        // timer();
+		      } 
+		      else {
+		      	$('span').text(timeLeft);
+		       
+		        timeLeft--;
+		      }
+		  }
+		      , 1000);
+}
+
 
 function callAjax(){
+
 
 	var inp=$("input").val();
 
@@ -41,19 +64,31 @@ function callAjax(){
 			}) ;
 }
 
-
+var flag=0;
 	function getData(){
 		
 		section.innerHTML="";//clear the result section
 
-		callAjax();
-		
+		callAjax();//start async call
+
+    
+		     //start countdown:
+		 	if(flag==0 || flag===undefined){
+				timer();
+				flag+=1;
+			}
+	
 
 		//auto refresh code:
-		setTimeout(function()
+		setInterval(function()
 		{
+
 			section.innerHTML="";
+			//call for ajax request to auto refresh
 			callAjax();
+			//update the timer for next auto refresh
+			timer();
+
 		},30000);
 
 
@@ -65,9 +100,15 @@ function callAjax(){
 		callAjax();
 		
 		}
+		//to change the background of the fixed header on scroll as the background
+		// is transparent initally
+		
+		var head=$('header');
+		 $("header").toggleClass('scrolled', $(this).scrollTop() > head.height()/2);
+
 	}
 
 }
 
-search.addEventListener('click',getData);
+
 
