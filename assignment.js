@@ -5,9 +5,10 @@ var section = document.querySelector('section');
 search.addEventListener('click',getData);
 
 //countdown function:
+var timerId
 function timer(){
 	var timeLeft = 28;
-			var timerId = setInterval(function()
+			timerId = setInterval(function()
 			{
 					if (timeLeft<=0) {
 		        clearTimeout(timerId);
@@ -73,10 +74,15 @@ var flag=0;
 
     
 		     //start countdown:
+
 		 	if(flag==0 || flag===undefined){
 				timer();
 				flag+=1;
+				console.log('inside flag '+flag);
 			}
+			console.log('outside flag '+flag);
+			
+			
 	
 
 		//auto refresh code:
@@ -87,6 +93,7 @@ var flag=0;
 			//call for ajax request to auto refresh
 			callAjax();
 			//update the timer for next auto refresh
+
 			timer();
 
 		},30000);
@@ -104,7 +111,7 @@ var flag=0;
 		// is transparent initally
 		
 		var head=$('header');
-		 $("header").toggleClass('scrolled', $(this).scrollTop() > head.height()/2);
+		 $("header").toggleClass('scrolled', $(this).scrollTop() > head.height()/1.5);
 
 	}
 
