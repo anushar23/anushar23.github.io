@@ -32,8 +32,7 @@ var section = document.querySelector('section');
    function resetAndStartTimer(){
     cdreset();
     countdown();
-    
-    };
+   };
 
 
 function callAjax(){
